@@ -229,7 +229,14 @@ def start_message(message):
 def start_message(message):
     state = get_state(message)
     print('State:', state, "|", datetime.datetime.now(), '| Message:', message.text)
-    if state == "Not registered":
+    num = -1
+    try:
+        num = execute_query('select count(*) from user where id = ?', [int(message.from_user.id)])
+    except Exception as Ex:
+        pass
+    if num == 0:
+        bot.send_message(message.chat.id, 'Отправьте /start для начала')
+    elif state == "Not registered":
         text = message.text
         if re.fullmatch('[A-Za-zА-Яа-яёЁЇїЄєІіҐґ]{2,25}( [A-Za-zА-Яа-яеЁЁЇїЄєІіҐґ]{2,25})?', text):
             bot.send_message(message.chat.id, 'Имя записано! Отправьте нам свою фамилию в корректном виде\n\n'+
