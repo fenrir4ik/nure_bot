@@ -231,7 +231,7 @@ def start_message(message):
     print('State:', state, "|", datetime.datetime.now(), '| Message:', message.text)
     num = -1
     try:
-        num = execute_query('select count(*) from user where id = ?', [int(message.from_user.id)])
+        num = execute_query('select count(*) from user where id = ?', [int(message.from_user.id)])[0][0]
     except Exception as Ex:
         pass
     if num == 0:
